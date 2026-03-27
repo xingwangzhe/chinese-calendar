@@ -2,7 +2,7 @@
 
 在 GNOME 时钟面板和日历卡片中显示中国农历日期、节气、传统节日和法定节假日信息。
 
-<img width="1200" alt="截图 2026-04-05 13-26-56" src="https://github.com/user-attachments/assets/a4b8da21-97f7-4677-b895-3730c5037dad" />
+<img width="1200" alt="calendar" src="https://github.com/user-attachments/assets/a4b8da21-97f7-4677-b895-3730c5037dad" />
 
 ## 功能特性
 
@@ -17,25 +17,17 @@
 
 ## 安装方法
 
-### 扩展管理器
-
-在操作系统的 `扩展管理` 中，搜索 `Chinese Calendar` 进行安装。
-
-### Gnome Extensions 网站
-
-通过 [Gnome Extensions website](https://extensions.gnome.org/extension/69405/chinese-calendar/)，搜索`Chinese Calendar` 打开启用开关。
-
-<img src="https://raw.githubusercontent.com/andyholmes/gnome-shell-extensions-badge/master/get-it-on-ego.svg?sanitize=true" alt="Get it on GNOME Extensions" height="100" align="middle">
-
 ### 手动安装
 
+提交到 gnome-extensions 的插件还在审核，所以目前可以手工安装。
+
 1. 下载扩展文件压缩包
-2. `gnome-extensions install chinese-calendar@tigertall.zip`
+2. `gnome-extensions install chinese-calendar.zip`
 3. 在 GNOME 扩展管理中启用和设置扩展
 
 ## 设置选项
 
-<img width="800" alt="截图 2026-04-05 13-27-28" src="https://github.com/user-attachments/assets/2176a289-f00a-410b-8d62-98edde0b0a83" />
+<img width="800" alt="settings" src="https://github.com/user-attachments/assets/2176a289-f00a-410b-8d62-98edde0b0a83" />
 
 ### 面板显示
 

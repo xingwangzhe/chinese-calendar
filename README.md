@@ -26,7 +26,7 @@
 
 通过 [Gnome Extensions website](https://extensions.gnome.org/extension/69405/chinese-calendar/)，搜索`Chinese Calendar` 打开启用开关。
 
-[<img src="https://raw.githubusercontent.com/andyholmes/gnome-shell-extensions-badge/master/get-it-on-ego.svg?sanitize=true" alt="Get it on GNOME Extensions" height="100" align="middle">][gextension]
+<img src="https://raw.githubusercontent.com/andyholmes/gnome-shell-extensions-badge/master/get-it-on-ego.svg?sanitize=true" alt="Get it on GNOME Extensions" height="100" align="middle">
 
 ### 手动安装
 

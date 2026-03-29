@@ -10,6 +10,7 @@ const testCases = [
     { year: 2024, month: 1, day: 1, expected: '元旦' },
     { year: 2025, month: 1, day: 29, expected: '春节' },
     { year: 2026, month: 3, day: 26, expected: null },  // 今天
+    { year: 2026, month: 6, day: 5, expected: '芒种' },
     { year: 2024, month: 9, day: 17, expected: '中秋节' },
     { year: 2024, month: 6, day: 10, expected: '端午节' },
 ];
@@ -56,4 +57,18 @@ for (let m = 1; m <= 12; m++) {
             console.log(`  ${2026}-${m}-${d}: ${term}`);
         }
     }
+}
+
+// 输出未来节气日期列表
+for (let year = 2000; year <= 2059; year++) {
+    let holiday=''; 
+    for (let m = 1; m <= 12; m++) {
+        for (let d = 1; d <= 31; d++) {
+            const term = LC.getSolarTerm(year, m, d);
+            if (term) {
+                holiday +=`${m.toString().padStart(2, '0')}${d.toString().padStart(2, '0')},`;
+            }
+        }
+    }
+    console.log(`${year}: ${holiday}`);
 }

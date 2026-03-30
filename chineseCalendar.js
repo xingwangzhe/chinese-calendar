@@ -62,36 +62,20 @@ const SOLAR_TERMS = [
 // 节气数据表 - 每年24节气对应的分钟偏移量基准，目前能用到 2053年，2054年冲突不可避免。
 const TROPICAL_YEAR = 365.24219878;  // 回归年长度 (天)
 const YEAR_BASE = 2000; // 计算基准年
-// 这个数组是根据2000年时刻计算得出，然后检查未来不匹配的手工进行了修正
-// 每一项代表该节气在2000年距离2000年1月1日0时0分0秒的总分钟数
-// 节气时间： https://dijizhou.100xgj.com/jieqibiao/2026
+// 数组每一项代表在2000年该节气时间距离2000年1月1日0时0分0秒的总分钟数
+// 节气时间： https://dijizhou.100xgj.com/jieqibiao/2026 或者使用 tyme.js库来计算
 // 紫金山天文台 pdf https://pmo.cas.cn/xwdt2019/kpdt2019/202203/t20220309_6386774.html
-const SOLAR_TERM_INFO = [
-    7740,  // 小寒
-    28943 + 5,  // 大寒
-    50200, // 立春
-    71553 + 15, // 雨水   // 2026 0218 23:51 max +15 vs 2059  0219 00:04 min +30
-    93042 + 10, // 惊蛰
-    114695 - 5, //春分
-    136531, // 清明
-    158559 - 15, // 谷雨
-    180770 - 20, // 立夏
-    203149 - 45, // 小满
-    225658 - 45 , // 芒种
-    248267 - 50, // 夏至
-    270913 - 5, // 小暑
-    293562 - 10, // 大暑
-    316142 - 30 , //立秋
-    338628 - 40, // 处暑
-    360959 - 30, // 白露
-    383127, // 秋分
-    405098, // 寒露
-    426887, // 霜降
-    448488, // 立冬
-    469939, // 小雪
-    491257 + 20, // 大雪
-    512497 + 18,  // 冬至  // 2054  min +30 vs 2021 max +18
+const SOLAR_TERM_INFO = [ 7740, 28943, 50200, 71553, 93042, 114695,
+    136531, 158559, 180770, 203149, 225658, 248267, 
+    270913, 293562, 316142, 338628, 360959, 383127, 
+    405098, 426887, 448488, 469939, 491257, 512497,
 ];
+
+// 有些年份计算后发生跨日偏移，需要修正，数据计算过程参考 solarterm_fix文件夹
+const TERM_FIX_INFO = [ 0, 3, 0, 0, 6, -12, 
+    0, -24, -27, -19, -50, -58, 
+    -13, -50, -39, -48, -36, 0, 
+    0, 0, 0, 0, 19, 0 ];
 
 // 传统节日
 const TRADITIONAL_FESTIVALS = {
@@ -209,18 +193,6 @@ function lunarMonthDays(year, month) {
 }
 
 /**
- * 计算节气
- * @param year 公历年
- * @param n 节气序号 (0-23)
- * @returns Date对象
- */
-function getSolarTermDate(year, n) {
-    const offDate = new Date(((year - YEAR_BASE) * TROPICAL_YEAR * 24 * 60  + 
-        SOLAR_TERM_INFO[n]) * 60000 + Date.UTC(YEAR_BASE, 0, 1, 0, 0) );
-    return new Date(offDate.getUTCFullYear(), offDate.getUTCMonth(), offDate.getUTCDate());
-}
-
-/**
  * 获取某天的节气，如果不是节气返回null
  */
 export function getSolarTerm(year, month, day) {
@@ -228,15 +200,15 @@ export function getSolarTerm(year, month, day) {
     const termIndex1 = (month - 1) * 2;
     const termIndex2 = termIndex1 + 1;
 
-    const term1Date = getSolarTermDate(year, termIndex1);
-    const term2Date = getSolarTermDate(year, termIndex2);
+    for (let idx of [termIndex1, termIndex2]) {
+        const offDate = new Date(((year - YEAR_BASE) * TROPICAL_YEAR * 24 * 60  + 
+            SOLAR_TERM_INFO[idx] + TERM_FIX_INFO[idx]) * 60000 + new Date(YEAR_BASE, 0, 1).getTime());
 
-    if (term1Date.getDate() === day) {
-        return SOLAR_TERMS[termIndex1];
+        if (offDate.getDate() === day) {
+            return SOLAR_TERMS[idx];
+        }
     }
-    if (term2Date.getDate() === day) {
-        return SOLAR_TERMS[termIndex2];
-    }
+
     return null;
 }
 

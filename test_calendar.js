@@ -13,6 +13,8 @@ const testCases = [
     { year: 2026, month: 6, day: 5, expected: '芒种' },
     { year: 2024, month: 9, day: 17, expected: '中秋节' },
     { year: 2024, month: 6, day: 10, expected: '端午节' },
+    { year: 2045, month: 0, day: 20, expected: '大寒' },
+    { year: 2048, month: 0, day: 6, expected: '小寒' },
 ];
 
 console.log('=== 农历计算模块测试 ===\n');
@@ -20,6 +22,7 @@ console.log('=== 农历计算模块测试 ===\n');
 for (const tc of testCases) {
     const info = LC.solarToLunar(tc.year, tc.month, tc.day);
     if (info) {
+        /*
         console.log(`${tc.year}-${tc.month}-${tc.day}:`);
         console.log(`  农历: ${info.fullDate}`);
         console.log(`  干支: ${info.ganZhiYear}年 生肖: ${info.zodiac}`);
@@ -28,15 +31,16 @@ for (const tc of testCases) {
         console.log(`  节气: ${info.solarTerm || '无'}`);
         console.log(`  显示(节日优先): ${LC.getDisplayText(info)}`);
         console.log(`  完整: ${info.ganZhiYear}年 ${info.monthName}${info.dayName} 【${info.zodiac}年】`);
+        */
         if (tc.expected) {
             const festivals = [];
             if (info.festival) festivals.push(info.festival);
             if (info.gregorianFestival) festivals.push(info.gregorianFestival);
             if (info.solarTerm) festivals.push(info.solarTerm);
             const found = festivals.includes(tc.expected);
-            console.log(`  验证 "${tc.expected}": ${found ? 'PASS' : 'FAIL'} (got: ${festivals.join(', ')})`);
+            console.log(`  验证${tc.year}-${tc.month}-${tc.day}: "${tc.expected}": ${found ? 'PASS' : 'FAIL'} (got: ${festivals.join(', ')})`);
         }
-        console.log('');
+        // console.log('');
     } else {
         console.log(`${tc.year}-${tc.month}-${tc.day}: 无法计算`);
     }
@@ -60,6 +64,7 @@ for (let m = 1; m <= 12; m++) {
 }
 
 // 输出未来节气日期列表
+/*
 for (let year = 2000; year <= 2059; year++) {
     let holiday=''; 
     for (let m = 1; m <= 12; m++) {
@@ -72,3 +77,4 @@ for (let year = 2000; year <= 2059; year++) {
     }
     console.log(`${year}: ${holiday}`);
 }
+*/

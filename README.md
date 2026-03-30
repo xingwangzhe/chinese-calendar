@@ -1,6 +1,8 @@
 # Chinese Calendar GNOME Shell Extension
 
-在 GNOME 时钟面板和日历卡片中显示中国农历日期、节气、传统节日和法定节假日信息。
+在 GNOME 时钟面板和日历卡片中显示中国农历日期、节气、传统节日和法定节假日调休信息。
+
+Display Chinese lunar dates, solar terms, traditional festivals, and statutory holidays in the GNOME top bar clock and dropdown calendar card area.
 
 <img width="800" alt="calendar" src="https://github.com/user-attachments/assets/a4b8da21-97f7-4677-b895-3730c5037dad" />
 

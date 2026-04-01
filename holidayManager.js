@@ -55,9 +55,12 @@ export class HolidayManager {
                 if (!holiday.StartDate || !holiday.EndDate || !holiday.Name) continue;
 
                 // 处理放假日期范围
-                const startDate = new Date(holiday.StartDate);
-                const endDate = new Date(holiday.EndDate);
-                
+                // 手动解析 ISO 日期字符串，避免时区问题导致日期差一天
+                const [startY, startM, startD] = holiday.StartDate.split('-').map(Number);
+                const [endY, endM, endD] = holiday.EndDate.split('-').map(Number);
+                const startDate = new Date(startY, startM - 1, startD);
+                const endDate = new Date(endY, endM - 1, endD);
+
                 // 遍历从开始日期到结束日期的每一天
                 for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
                     const month = String(d.getMonth() + 1).padStart(2, '0');
@@ -77,7 +80,9 @@ export class HolidayManager {
                 // 处理调休补班日期
                 if (Array.isArray(holiday.CompDays)) {
                     for (const compDay of holiday.CompDays) {
-                        const compDate = new Date(compDay);
+                        // 同样手动解析避免时区问题
+                        const [y, m, d] = compDay.split('-').map(Number);
+                        const compDate = new Date(y, m - 1, d);
                         const month = String(compDate.getMonth() + 1).padStart(2, '0');
                         const day = String(compDate.getDate()).padStart(2, '0');
                         const dateKey = `${month}-${day}`;

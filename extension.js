@@ -238,33 +238,29 @@ export default class ChineseCalendarExtension extends Extension {
     // 用于在日历格子中创建带农历的按钮
     const lunarButton = (origButton, iterDate, oargs) => {
       let newButton;
-      if (+oargs[0].label === +iterDate.getDate().toString()) {
-        iterDate._lunarIterFound = true;
+      // 每次都使用当前 iterDate 的完整日期信息，这样跨月时也能保证月份正确
+      const year = iterDate.getFullYear();
+      const month = iterDate.getMonth() + 1;
+      const day = iterDate.getDate();
 
-        const year = iterDate.getFullYear();
-        const month = iterDate.getMonth() + 1;
-        const day = iterDate.getDate();
+      const info = ChineseCalendar.solarToLunar(year, month, day);
+      const cellText = info ? ChineseCalendar.getDisplayText(info) : '';
 
-        const info = ChineseCalendar.solarToLunar(year, month, day);
-        const cellText = info ? ChineseCalendar.getDisplayText(info) : '';
-
-        // 添加换行使日历格子能显示两行
-        if (cellText) {
-          oargs[0].label += '\n';
-        }
-
-        newButton = _makeNew(origButton, oargs);
-
-        if (cellText) {
-          newButton._lunarText = cellText;
-          newButton._lunarInfo = info;
-          newButton._lunarYear = year;
-          newButton._lunarMonth = month;
-          newButton._lunarDay = day;
-        }
-      } else {
-        newButton = _makeNew(origButton, oargs);
+      // 添加换行使日历格子能显示两行
+      if (cellText) {
+        oargs[0].label += '\n';
       }
+
+      newButton = _makeNew(origButton, oargs);
+
+      if (cellText) {
+        newButton._lunarText = cellText;
+        newButton._lunarInfo = info;
+        newButton._lunarYear = year;
+        newButton._lunarMonth = month;
+        newButton._lunarDay = day;
+      }
+
       return newButton;
     };
 
@@ -281,7 +277,7 @@ export default class ChineseCalendarExtension extends Extension {
         // 临时替换 Date 构造函数来追踪迭代日期
         Date = function () {
           let newDate = _makeNew(origDate, arguments);
-          //删除!iterDate._lunarIterFound &&
+          // 始终更新 iterDate 以保证拿到正确的当前日期
           if (arguments.length > 0 && arguments[0] instanceof origDate) {
             iterDate = newDate;
           }

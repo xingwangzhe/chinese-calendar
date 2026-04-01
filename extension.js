@@ -73,7 +73,6 @@ export default class ChineseCalendarExtension extends Extension {
     super(metadata);
     this._replacementFunc = {};
   }
-
   enable() {
     this._settings = this.getSettings();
     this._injectionManager = new InjectionManager();
@@ -278,7 +277,8 @@ export default class ChineseCalendarExtension extends Extension {
         Date = function () {
           let newDate = _makeNew(origDate, arguments);
           // 始终更新 iterDate 以保证拿到正确的当前日期
-          if (arguments.length > 0 && arguments[0] instanceof origDate) {
+          // 无论何种构造方式，都更新 iterDate，避免日期错位
+          if (arguments.length > 0) {
             iterDate = newDate;
           }
           return newDate;
